@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<link href=".\icon.png" rel="shortcut icon">
+		<link href=".\styles.css" rel="stylesheet">
+		<script src="script.js"></script>
+		<title>DB browser</title>
+	</head>
+	<body>
+		<div class="header">
+			<img src=".\logo.png">
+			<div class="sign_in_block">
+				<p class="button" id="sign_in">Войти</p>
+			</div>
+		</div>
+		
+		<div class="filter_switcher">
+			<div class="switch_button"></div>
+			<div class="text filter_text" style="color: #000">Фильтры</div>
+		</div>
+		<div class="filter_block hidden">
+			<div class="filter">
+				<div class="text">Filter1</div>
+				<input type="text">
+			</div>
+			<div class="filter">
+				<div class="text">Filter2</div>
+				<input type="text">
+			</div>
+			<div class="filter">
+				<div class="text">Filter3</div>
+				<input type="text">
+			</div>
+			<br>
+			<p class="button" style="font-size: 20px; font-weight: bold">Применить</p>
+		</div>
+		
+		<div class="selector" id="table_selector">
+			<div class="selector_option" id="selected">Выбор таблицы</div>
+			<div class="selector_hider" id="hider">
+				<div class="selector_option">Table1</div>
+				<div class="selector_option">Table2</div>
+				<div class="selector_option">Table3</div>
+			</div>
+		</div>
+		
+		<br>
+		
+		<table>
+			<tr class="table_naming">
+				<td class="cell">Column 1<p class="sorter">▼</p></td>
+				<td class="cell">Column 2</td>
+				<td class="cell">Column 3</td>
+				<td class="cell ceil_option"><div class="new">+</div></td>
+			</tr>
+			<tr>
+				<td class="cell">1</td>
+				<td class="cell">2</td>
+				<td class="cell">3</td>
+				<td class="cell ceil_option"><div class="remove">+</div></td>
+			</tr>
+			<tr>
+				<td class="cell">4</td>
+				<td class="cell">5</td>
+				<td class="cell">6</td>
+				<td class="cell ceil_option"><div class="remove">+</div></td>
+			</tr>
+		</table>
+		
+		<div class="loader_block" id="form">
+			<div class="form">
+				<div class="text former">Логин</div>
+				<input spellcheck="false" type="text" id="login">
+				<br>
+				<div class="text former">Пароль</div>
+				<input spellcheck="false" type="password" id="password">
+				<br>
+				<p class="button" id="submit">Войти</p>
+			</div>
+		</div>
+		
+		<!-- Картинка загрузки -->
+		<div class="loader_block" id="loader">
+			<div class="loader" />
+		</div>
+	</body>
+</html>

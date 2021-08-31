@@ -1,0 +1,279 @@
+body {
+	text-align: center;
+	padding: 0px;
+	margin: 0px;
+	background: url(bg-image.png) 20px;
+	background-color: #f8f5ff;
+	background-size: 60px;
+	font-family: GOST Type AU;
+}
+
+.header {
+	display: flex;
+	background: #c8c5ee;
+	text-align: left;
+}
+
+.header > img {
+	flex: 379px 80px;
+}
+
+.sign_in_block {
+	text-align: right;
+	flex: 1;
+	vertical-align: middle;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.button {
+	color: #fff;
+	display: inline-block;
+	padding: 10px 30px;
+	margin: 20px 30px;
+	cursor: pointer;
+	background: #141414;
+	border-radius: 3px;
+}
+
+.button:hover {
+	background: #303030;
+	transition: .3s;
+}
+
+input {
+	font-size: 15px;
+	font-weight: bold;
+	font-family: MS Sans Serif;
+	padding: 5px;
+	outline: none;
+	border: 0px;
+	background: #35204d30;
+	margin: 10px 10px;
+	border-radius: 2px;
+	box-shadow: 1px 1px 5px #00000070;
+}
+
+input:focus {
+	background: #35204d50;
+}
+
+.text {
+	font-weight: bold;
+	font-size: 20px;
+	display: inline-block;
+	margin: 0px 0px;
+	color: #666;
+}
+
+.former {
+	width: 50px;
+}
+
+.loader_block {
+	z-index: -1000;
+	position: absolute;
+	left: 0%;
+	top: -100%;
+	width: 100%;
+	height: 200%;
+	text-align: center;
+	background: #d8d5fe00;
+	transition: .4s;
+}
+
+.loader_block > .loader {
+	display: inline-block;
+	padding: 5px;
+	padding: 15px;
+	border-radius: 100%;
+	border: 10px solid #c8c5ee;
+	border-top: 10px solid #ab8dff;
+	animation: loader .7s linear infinite;
+	position: absolute;
+	margin: 22% 0%;
+	position: absolute;
+}
+
+@keyframes loader {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+}
+
+.active {
+	z-index: 1000;
+	top: 0%;
+	height: 100%;
+	background: #d8d5feaa;
+}
+
+.form {
+	display: inline-block;
+	padding: 35px 60px;
+	margin: 17% 0%;
+	vertical-align: middle;
+	border-radius: 10px;
+	background: #e4e4ffa0;
+	position: relative;
+	box-shadow: 1px 1px 5px #000;
+}
+
+.filter_block {
+	transition: .5s;
+	max-height: 20%;
+	background: #f8f5ffcc;
+	box-shadow: 1px 1px 5px #000;
+	overflow-y: hidden;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	box-shadow: 0px 0px 2px #000000;
+}
+
+.hidden {
+	transition: .5s;
+	max-height: 0%;
+	padding: 0px;
+}
+
+.filter_switcher {
+	text-align: left;
+	background: #7d59b9;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.switch_button {
+	display: inline-block;
+	border: 7px solid #ffffff00;
+	border-left: 7px solid #000;
+	margin-left: 20px;
+	transition: .2s;
+}
+
+.switched {
+	transform: rotate(90deg) translate(18%, 0%);
+}
+
+.filter {
+	display: inline-block;
+}
+
+.filter > .text {
+	font-size: 15px;
+	color: #000;
+	margin-left: 20px;
+}
+
+.filter > input {
+	width: 150px;
+}
+
+table {
+	margin-top: 0px;
+	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	background: #ffffffaa;
+	padding: 0px;
+	border-radius: 2px;
+	box-shadow: 1px 1px 5px #000;
+	font-weight: bold;
+	display: inline-block;
+}
+
+.cell {
+	border: 1px solid #000;
+	padding: 5px;
+	padding-left: 10px;
+	width: 100px;
+	display: inline-block;
+	margin: 0px 1px;
+	text-align: left;
+}
+
+.remove, .new {
+	padding: 0px 5px;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 100%;
+	background: linear-gradient(#e65555, #a33a3a);
+	display: inline-block;
+	font-family: Century Gothic;
+	font-weight: bold;
+	margin: 0px 0px;
+}
+
+.remove {
+	transform: rotate(45deg);
+}
+
+.remove:hover {
+	background: linear-gradient(#a33a3a, #672323);
+}
+
+.new {
+	background: linear-gradient(#0f0, #090);
+}
+
+.new:hover {
+	background: linear-gradient(#0a0, #070);
+}
+
+.selector {
+	margin: 20px 10px;
+	display: inline-block;
+	background: #ffffffaa;
+	border-radius: 2px;
+	font-size: 20px;
+	font-weight: bold;
+	cursor: pointer;
+	box-shadow: 0px 0px 5px #000;
+	z-index: 1;
+}
+
+.selector_option {
+	width: 150px;
+	padding: 5px 0px;
+}
+
+.selector_hider {
+	overflow: hidden;
+	max-height: 0%;
+	transition: .5s;
+	position: absolute;
+	background: #ffffffaa;
+	box-shadow: 0px 1px 5px #000;
+}
+
+.opened {
+	max-height: 30%;
+}
+
+.opened > .selector_option:hover {
+	background: #7640f5aa;
+}
+
+.horizontal_block {
+	vertical-align: baseline;
+}
+
+.sorter {
+	font-size: 10px;
+	margin-left: 5px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	display: inline-block;
+}
+
+.table_naming > .cell {
+	cursor: pointer;
+}
+
+.ceil_option {
+	border: 0px;
+	padding: 0px;
+	margin: 0px 5px;
+	width: 20px;
+}
