@@ -13,29 +13,27 @@
 			</div>
 		</div>
 		
-		<div class="filter_switcher">
-			<div class="switch_button"></div>
-			<div class="text filter_text" style="color: #000">Фильтры</div>
-		</div>
-		<div class="filter_block hidden">
-			<div class="filter">
-				<div class="text">Filter1</div>
-				<input type="text">
+		<div class="filter_group" id="filter">
+			<div class="filter_switcher" id="filter_switcher">
+				<div class="switch_button"></div>
+				<div class="text filter_text" style="color: #000">Фильтры</div>
 			</div>
-			<div class="filter">
-				<div class="text">Filter2</div>
+			<template class="filter" id="filter_template">
+				<div class="text" name="filter_text">Filter1</div>
 				<input type="text">
+			</template>
+			<div class="filter_block">
+				<div class="filter_container">
+					
+				</div>
+				<br>
+				<p class="button" style="font-size: 20px; font-weight: bold">Применить</p>
 			</div>
-			<div class="filter">
-				<div class="text">Filter3</div>
-				<input type="text">
-			</div>
-			<br>
-			<p class="button" style="font-size: 20px; font-weight: bold">Применить</p>
 		</div>
 		
 		<div class="selector" id="table_selector">
 			<div class="selector_option" id="selected">Выбор таблицы</div>
+			<template class="selector_option" id="selector_template">Table1</template>
 			<div class="selector_hider" id="hider">
 				<div class="selector_option">Table1</div>
 				<div class="selector_option">Table2</div>
@@ -45,19 +43,13 @@
 		
 		<br>
 		
-		<table>
-			<tr class="table_naming">
-				<td class="cell">Column 1<p class="sorter">▼</p></td>
-				<td class="cell">Column 2</td>
-				<td class="cell">Column 3</td>
-				<td class="cell ceil_option"><div class="new">+</div></td>
-			</tr>
-			<tr>
-				<td class="cell">1</td>
-				<td class="cell">2</td>
-				<td class="cell">3</td>
-				<td class="cell ceil_option"><div class="remove">+</div></td>
-			</tr>
+		<table id="main_table">
+			<template class="table_naming" id="naming_template"></template>
+			<template class="table_naming" id="regular_template"></template>
+			<template class="cell" id="cell_template"></template>
+			<template class="sorter" id="sorter_template">▼</template>
+			<template class="cell ceil_option" id="new_button"><div class="new">+</div></template>
+			<template class="cell ceil_option" id="remove_button"><div class="remove">+</div></template>
 			<tr>
 				<td class="cell">4</td>
 				<td class="cell">5</td>
@@ -66,15 +58,15 @@
 			</tr>
 		</table>
 		
-		<div class="loader_block" id="form">
+		<div class="loader_block form_group" id="login_form">
 			<div class="form">
 				<div class="text former">Логин</div>
-				<input spellcheck="false" type="text" id="login">
+				<input spellcheck="false" type="text" name="login">
 				<br>
 				<div class="text former">Пароль</div>
-				<input spellcheck="false" type="password" id="password">
+				<input spellcheck="false" type="password" name="password">
 				<br>
-				<p class="button" id="submit">Войти</p>
+				<button class="button" name="submit">Войти</button>
 			</div>
 		</div>
 		
