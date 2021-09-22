@@ -6,6 +6,14 @@
 		<title>DB browser</title>
 	</head>
 	<body>
+		<div class="message_block" id="popup_list">
+			<template class="popup_message" style="display: none" id="popup_template">
+				<div class="message_text"></div>
+				<div class="message_closer_line">
+					<div class="message_closer">+</div>
+				</div>
+			</template>
+		</div>
 		<div class="header">
 			<img src=".\logo.png">
 			<div class="sign_in_block">
@@ -45,7 +53,7 @@
 		
 		<table id="main_table">
 			<template class="table_naming" id="naming_template"></template>
-			<template class="table_naming" id="regular_template"></template>
+			<template id="regular_template"></template>
 			<template class="cell" id="cell_template"></template>
 			<template class="sorter" id="sorter_template">▼</template>
 			<template class="cell ceil_option" id="new_button"><div class="new">+</div></template>
@@ -60,19 +68,36 @@
 		
 		<div class="loader_block form_group" id="login_form">
 			<div class="form">
-				<div class="text former">Логин</div>
-				<input spellcheck="false" type="text" name="login">
-				<br>
-				<div class="text former">Пароль</div>
-				<input spellcheck="false" type="password" name="password">
-				<br>
-				<button class="button" name="submit">Войти</button>
+				<div class="close_line">
+					<div class="close_button">+</div>
+				</div>
+				<div class="form_body">
+					<div class="text former">Логин</div>
+					<input spellcheck="false" type="text" name="login">
+					<br>
+					<div class="text former">Пароль</div>
+					<input spellcheck="false" type="password" name="password">
+					<br>
+					<p class="button" name="submit">Войти</p>
+				</div>
 			</div>
 		</div>
 		
 		<!-- Картинка загрузки -->
 		<div class="loader_block" id="loader">
-			<div class="loader" />
+			<div class="loader"></div>
+		</div>
+
+		<div class="loader_block" id="alert">
+			<div class="form">
+				<div class="close_line">
+					<div class="close_button">+</div>
+				</div>
+				<div class="form_body">
+					<div class="alert_symbol">!</div>
+					<div class="text alert" name="text">Здесь могла быть ваша реклама</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
