@@ -64,10 +64,11 @@ input:focus {
 	display: inline-block;
 	margin: 0px 0px;
 	color: #666;
+	text-align: right;
 }
 
 .former {
-	width: 50px;
+	width: 60px;
 }
 
 .loader_block {
@@ -130,7 +131,7 @@ input:focus {
 .form_body {
 	margin: 30px 60px;
 	margin-top: 0px;
-	width: 280px;
+	width: 300px;
 }
 
 .close_line {
@@ -322,6 +323,7 @@ table {
 	border: 2px solid #000;
 	vertical-align: top;
 	margin-right: 30px;
+	width: 12px;
 }
 
 .alert {

@@ -66,22 +66,35 @@
 			</tr>
 		</table>
 		
-		<div class="loader_block form_group" id="login_form">
+		<template class="loader_block form_group" id="login_template">
 			<div class="form">
-				<div class="close_line">
+				<div class="close_line" name="close">
 					<div class="close_button">+</div>
 				</div>
 				<div class="form_body">
 					<div class="text former">Логин</div>
-					<input spellcheck="false" type="text" name="login">
+					<input spellcheck="false" type="text" name="login">  <!-- login -->
 					<br>
 					<div class="text former">Пароль</div>
-					<input spellcheck="false" type="password" name="password">
+					<input spellcheck="false" type="password" name="password">  <!-- password -->
 					<br>
-					<p class="button" name="submit">Войти</p>
+					<p class="button" name="submit">Войти</p>  <!-- submit -->
 				</div>
 			</div>
-		</div>
+		</template>
+
+		<template class="loader_block form_group" id="value_template">
+			<div class="form">
+				<div class="close_line" name="close">
+					<div class="close_button">+</div>
+				</div>
+				<div class="form_body">
+					<div class="text former">Значение</div>
+					<input spellcheck="false" type="text" name="value">  <!-- login -->
+					<p class="button" name="submit">Применить</p>  <!-- submit -->
+				</div>
+			</div>
+		</template>
 		
 		<!-- Картинка загрузки -->
 		<div class="loader_block" id="loader">
@@ -91,7 +104,7 @@
 		<div class="loader_block" id="alert">
 			<div class="form">
 				<div class="close_line">
-					<div class="close_button">+</div>
+					<div class="close_button" name="close">+</div>
 				</div>
 				<div class="form_body">
 					<div class="alert_symbol">!</div>

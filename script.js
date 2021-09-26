@@ -1,3 +1,5 @@
+const CLOSER_BUTTON = "closer_button"
+
 var block_message, filter, selector, login_form, sign_in, message_controller
 
 function modifyHidable(element) {
@@ -20,16 +22,6 @@ function modifyHidable(element) {
 			element.hide()
 		else
 			element.show()
-	}
-}
-
-function initCloseButtons() {
-	let close_buttons = document.getElementsByClassName("close_button")
-	for (let i = 0; i < close_buttons.length; i++) {
-		let button = close_buttons[i]
-		button.onclick = function(e) {
-			this.parentElement.parentElement.parentElement.controller.hide();
-		}
 	}
 }
 
@@ -88,35 +80,17 @@ class Loader {
 	}
 }
 
-class LoginController {
-	constructor(form_id) {
-		this.form = document.getElementById(form_id)
-		modifyHidable(this.form)
-		this.form.controller = this
-		this.loginText = this.form.querySelector("[name=login]")
-		this.passwordText = this.form.querySelector("[name=password]")
-		this.submit = this.form.querySelector("[name=submit]")
-		this.submit.onclick = function(e) {
-			this.parentElement.parentElement.parentElement.hide()
-			Loader.show()
-			setTimeout(function() { Loader.hide() }, 2000)
-			block_message.show("Вы попытались войти")
-		}
-	}
-
-	show() {
-		this.form.show()
-	}
-
-	hide() {
-		this.form.hide()
-	}
-}
-
 class AlertController {
 	constructor(alert_id) {
 		this.alert = document.getElementById(alert_id)
 		this.alert.controller = this
+		
+		let close_button = this.alert.querySelector("[name=close]")
+		close_button.parent = this
+		close_button.onclick = function(e) {
+			this.parent.hide()
+		}
+
 		this.text = Array.from(this.alert.getElementsByTagName("div")).filter(_ => _.getAttribute("name") == "text")[0]
 		modifyHidable(this.alert)
 	}
@@ -409,13 +383,107 @@ class MessageController {
 	}
 }
 
+class FormController {
+	constructor(form_template_id, hidable=false, remove_time=1000) {
+		this.template = document.getElementById(form_template_id)
+		this.hidable = hidable
+		this.remove_time = remove_time
+	}
+
+	create() {
+		this.form_object = reviveTemplate(this.template, "div")
+		this.form_object.controller = this
+		if (this.hidable) {
+			modifyHidable(this.form_object)
+			document.body.appendChild(this.form_object)
+			setTimeout(function(obj) {
+				obj.form_object.show()
+			}, 0, this)
+		}
+
+		let closer = this.getMember("close")
+		closer.main_object = this
+		closer.onclick = function(e) {
+			this.main_object.terminate()
+		}
+		
+		this.onCreate()
+	}
+
+	terminate() {
+		this.form_object.hide()
+		setTimeout(function(obj) {
+			obj.parentElement.removeChild(obj)
+		}, this.remove_time, this.form_object)
+	}
+
+	getMember(name) {
+		let children = Array.from(this.form_object.getElementsByTagName("*"))
+		return children.filter(_ => _.getAttribute("name") == name)[0]
+	}
+
+	onCreate() {
+		/* Override me */
+	}
+}
+
+class LoginFormController extends FormController {
+	constructor(template_id, hidable=false) {
+		super(template_id, hidable)
+	}
+
+	onCreate() {
+		this.submit = this.getMember("submit")
+		this.submit.main_object = this
+		this.submit.onclick = function(e) {
+			this.main_object.terminate()
+			Loader.show()
+			setTimeout(function() { Loader.hide() }, 2000)
+			block_message.show(`Вы попытались войти: ${this.main_object.getLogin()}:${this.main_object.getPassword()}`)
+		}
+
+		this.login = this.getMember("login")
+		this.password = this.getMember("password")
+	}
+
+	getLogin() {
+		return this.login.value
+	}
+
+	getPassword() {
+		return this.password.value
+	}
+}
+
+class ValueController extends FormController {
+	constructor(template_id, hidable) {
+		super(template_id, hidable)
+	}
+	
+	onCreate() {
+		this.submit = this.getMember("submit")
+		this.submit.main_object = this
+		this.submit.onclick = function(e) {
+			this.main_object.terminate()
+			Loader.show()
+			setTimeout(function() { Loader.hide() }, 2000)
+			block_message.show(`Ваше значение: ${this.main_object.getValue()}`)
+		}
+	
+		this.value = this.getMember("value")
+	}
+
+	getValue() {
+		return this.value.value
+	}
+}
+
 function mainSelectorSelected() {
 	console.log(`You selected ${this.getSelectedValue()}`)
 }
 
 window.onload = function() {
 	Loader.init()
-	initCloseButtons()
 
 	block_message = new AlertController("alert")
 
@@ -426,10 +494,10 @@ window.onload = function() {
 	selector.setOptions(["Option1", "Option2", "Option3"])
 	selector.selectAction = mainSelectorSelected
 	
-	login_form = new LoginController("login_form")
+	login_form = new LoginFormController("login_template", true)
 	sign_in = document.querySelector("#sign_in")
 	sign_in.onclick = function(e) {
-		login_form.show()
+		login_form.create(true)
 	}
 
 	var table = new TableController("main_table", "naming_template", "regular_template", "cell_template", "sorter_template", "new_button", "remove_button")
@@ -448,4 +516,7 @@ window.onload = function() {
 	message_controller.show("TEXT", 3000)
 	message_controller.show("TEXT", 1000)
 	message_controller.show("TEXT")
+
+	var value_controller = new ValueController("value_template", true)
+	setTimeout(function() {value_controller.create()}, 1000)
 }
