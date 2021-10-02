@@ -1,5 +1,3 @@
-const CLOSER_BUTTON = "closer_button"
-
 var block_message, filter, selector, login_form, sign_in, message_controller
 
 function modifyHidable(element) {
@@ -32,22 +30,35 @@ function reviveTemplate(template_object, tag_name) {
 	return element
 }
 
-class FilterController {
-	constructor(switcher_id, filter_id, template_id) {
-		let switcher = document.getElementById(switcher_id)
-		let filter_group = document.getElementById(filter_id)
-		this.container = filter_group.getElementsByClassName("filter_container")[0]
-		this.element_template = document.getElementById(template_id)
-		modifyHidable(filter_group)
+class Interactive {
+	constructor(body) {
+		this.body = body
+	}
 
+	getEl(name) {
+		return Array.from(this.body.getElementsByTagName("*"))
+			.filter(_ => _.getAttribute("name") == name)[0]
+	}
+}
+
+class FilterController extends Interactive {
+	constructor(filter_id) {
+		let body = document.getElementById(filter_id)
+		super(body)
+		this.container = this.getEl("container")
+		this.element_template = this.getEl("template")
+		modifyHidable(body)
+
+		let switcher = this.getEl("switcher")
+		switcher.interactive = body
 		switcher.onclick = function(e) {
-			filter_group.switchState()
+			this.interactive.switchState()
 		}
 	}
 
 	createNewFilter(filter_name) {
 		let el = reviveTemplate(this.element_template, "div")
-		el.getElementsByTagName("div")[0].innerHTML = filter_name
+		Array.from(el.getElementsByTagName("*")).filter(_ => _.getAttribute("name") == "name")[0].innerHTML = filter_name;
 		return el
 	}
 
@@ -105,16 +116,19 @@ class AlertController {
 	}
 }
 
-class SelectorController {
-	constructor(selector_id, selected_header_id, template_id, option_list_id) {
-		this.selector = document.getElementById(selector_id)
-		this.header = document.getElementById(selected_header_id)
-		this.header.controller = this
-		this.container = document.getElementById(option_list_id)
-		this.element_template = document.getElementById(template_id)
+class SelectorController extends Interactive {
+	constructor(selector_id) {
+		let body = document.getElementById(selector_id)
+		super(body)
+
+		this.container = this.getEl("container")
 		modifyHidable(this.container)
 
-		this.header.onclick = function(e) {	
+		this.option_template = this.getEl("template")
+		
+		this.header = this.getEl("header")
+		this.header.controller = this
+		this.header.onclick = function(e) {
 			this.controller.open()
 		}
 	}
@@ -128,7 +142,7 @@ class SelectorController {
 	}
 
 	createNewOption(option_name) {
-		let el = reviveTemplate(this.element_template, "div")
+		let el = reviveTemplate(this.option_template, "div")
 		el.innerHTML = option_name
 		el.controller = this
 		el.onclick = function(e) {
@@ -160,22 +174,23 @@ class SelectorController {
 	selectAction() { /* Override me */ }
 }
 
-class TableController {
-	constructor(table_id, naming_template_id, regular_template_id, cell_template_id, sorter_template_id, new_button_id, remove_button_id) {
-		this.table = document.getElementById(table_id)
-		this.naming_template = document.getElementById(naming_template_id)
-		this.regular_template = document.getElementById(regular_template_id)
-		this.cell_template = document.getElementById(cell_template_id)
-		this.sorter_template = document.getElementById(sorter_template_id)
-		this.new_template = document.getElementById(new_button_id)
-		this.remove_template = document.getElementById(remove_button_id)
+class TableController extends Interactive {
+	constructor(table_id) {
+		let body = document.getElementById(table_id)
+		super(body)
+		this.naming_template = this.getEl("attributes")
+		this.regular_template = this.getEl("regular")
+		this.cell_template = this.getEl("cell")
+		this.sorter_template = this.getEl("sorter")
+		this.new_template = this.getEl("button_new")
+		this.remove_template = this.getEl("button_remove")
 		this.rows = []
 	}
 
 	
 	clear() {
-		while (this.table.childNodes.length > 0) {
-			this.table.removeChild(this.table.childNodes[0])
+		while (this.body.childNodes.length > 0) {
+			this.body.removeChild(this.body.childNodes[0])
 		}
 		this.rows = []
 	}
@@ -183,7 +198,7 @@ class TableController {
 	addRow() {
 		let row_template = this.rows.length > 0 ? this.regular_template : this.naming_template
 		let new_row = new TableController.Row(row_template, this.cell_template, this.sorter_template, this.new_template, this.remove_template)
-		this.table.appendChild(new_row.row_object)
+		this.body.appendChild(new_row.row_object)
 		this.rows.push(new_row)
 		this.rows.at(-1).controller = this
 	}
@@ -201,7 +216,7 @@ class TableController {
 
 	removeRow(index) {
 		let row = this.rows[index].row_object
-		this.table.removeChild(row)
+		this.body.removeChild(row)
 		this.rows.splice(index, 1)
 	}
 
@@ -211,6 +226,10 @@ class TableController {
 
 	moveSorter(index) {
 		this.getRow(0).moveSorter(index)
+	}
+
+	removeSorter() {
+		this.getRow(0).removeSorter()
 	}
 
 	getColumnName(index) {
@@ -268,15 +287,19 @@ TableController.Row = class {
 		return this.cells.indexOf(cell)
 	}
 
+	removeSorter() {
+		for (let i = 0; i < this.cells.length; i++) {
+			this.cells[i].makeUnsorted()
+		}
+	}
+
 	moveSorter(index) {
 		if (this.getSortedIndex() == index) {
 			this.cells[index].reverseSorted()
 			return
 		}
 
-		for (let i = 0; i < this.cells.length; i++) {
-			this.cells[i].makeUnsorted()
-		}
+		this.removeSorter()
 		this.cells[index].makeSorted()
 	}
 
@@ -351,10 +374,11 @@ TableController.Row.Cell = class {
 	}
 }
 
-class MessageController {
-	constructor(list_id, template_id) {
-		this.list = document.getElementById(list_id)
-		this.template = document.getElementById(template_id)
+class MessageController extends Interactive {
+	constructor(list_id) {
+		let body = document.getElementById(list_id)
+		super(body)
+		this.template = this.getEl("template")
 	}
 
 	show(text, timeout=0) {
@@ -368,12 +392,12 @@ class MessageController {
 
 		let message = reviveTemplate(this.template, "div")
 		let closer = message.getElementsByClassName("message_closer")[0]
-		closer.parent = this.list
+		closer.parent = this.body
 		closer.to_remove = message
 		let text_object = message.getElementsByClassName("message_text")[0]
 		text_object.innerHTML = text
 		closer.onclick = function(e) { closer_function(this) }
-		this.list.appendChild(message)
+		this.body.appendChild(message)
 
 		if (timeout > 0) {
 			setTimeout(function() {
@@ -487,10 +511,10 @@ window.onload = function() {
 
 	block_message = new AlertController("alert")
 
-	filter = new FilterController("filter_switcher", "filter", "filter_template")
+	filter = new FilterController("filter")
 	filter.setFilters(["Filter", "filter2"])
 
-	selector = new SelectorController("table_selector", "selected", "selector_template", "hider")
+	selector = new SelectorController("table_selector")
 	selector.setOptions(["Option1", "Option2", "Option3"])
 	selector.selectAction = mainSelectorSelected
 	
@@ -500,7 +524,7 @@ window.onload = function() {
 		login_form.create(true)
 	}
 
-	var table = new TableController("main_table", "naming_template", "regular_template", "cell_template", "sorter_template", "new_button", "remove_button")
+	var table = new TableController("main_table")
 	table.clear()
 	table.addRow()
 	table.addCell("Column 1")

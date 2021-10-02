@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="message_block" id="popup_list">
-			<template class="popup_message" style="display: none" id="popup_template">
+			<template class="popup_message" style="display: none" name="template">
 				<div class="message_text"></div>
 				<div class="message_closer_line">
 					<div class="message_closer">+</div>
@@ -22,16 +22,16 @@
 		</div>
 		
 		<div class="filter_group" id="filter">
-			<div class="filter_switcher" id="filter_switcher">
+			<div class="filter_switcher" name="switcher">
 				<div class="switch_button"></div>
 				<div class="text filter_text" style="color: #000">Фильтры</div>
 			</div>
-			<template class="filter" id="filter_template">
-				<div class="text" name="filter_text">Filter1</div>
+			<template class="filter" name="template">
+				<div class="text" name="name">Filter1</div>
 				<input type="text">
 			</template>
 			<div class="filter_block">
-				<div class="filter_container">
+				<div name="container">
 					
 				</div>
 				<br>
@@ -40,24 +40,22 @@
 		</div>
 		
 		<div class="selector" id="table_selector">
-			<div class="selector_option" id="selected">Выбор таблицы</div>
-			<template class="selector_option" id="selector_template">Table1</template>
-			<div class="selector_hider" id="hider">
-				<div class="selector_option">Table1</div>
-				<div class="selector_option">Table2</div>
-				<div class="selector_option">Table3</div>
+			<div class="selector_option" name="header">Выбор таблицы</div>
+			<template class="selector_option" name="template">Table1</template>
+			<div class="selector_hider" name="container">
+				
 			</div>
 		</div>
 		
 		<br>
 		
 		<table id="main_table">
-			<template class="table_naming" id="naming_template"></template>
-			<template id="regular_template"></template>
-			<template class="cell" id="cell_template"></template>
-			<template class="sorter" id="sorter_template">▼</template>
-			<template class="cell ceil_option" id="new_button"><div class="new">+</div></template>
-			<template class="cell ceil_option" id="remove_button"><div class="remove">+</div></template>
+			<template class="table_naming" name="attributes"></template>
+			<template name="regular"></template>
+			<template class="cell" name="cell"></template>
+			<template class="sorter" name="sorter">▼</template>
+			<template class="cell ceil_option" name="button_new"><div class="new">+</div></template>
+			<template class="cell ceil_option" name="button_remove"><div class="remove">+</div></template>
 			<tr>
 				<td class="cell">4</td>
 				<td class="cell">5</td>
